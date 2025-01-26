@@ -7,6 +7,9 @@ export const createContactSchema = Joi.object({
   age: Joi.number().integer().min(6).max(16).required(),
   email: Joi.string().min(3).max(30),
   isFavourite: Joi.boolean(),
+  // userId: Joi.string()
+  //   .pattern(/^[0-9a-fA-F]{24}$/)
+  //   .required(),
 });
 
 export const updateContactSchema = Joi.object({
