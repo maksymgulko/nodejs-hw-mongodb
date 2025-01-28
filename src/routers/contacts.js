@@ -16,9 +16,6 @@ import { isValidId } from '../validation/isValid.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { checkRoles } from '../middlewares/checkRoles.js';
 import { ROLES } from '../constants/index.js';
-import { authenticate } from '../middlewares/authenticate.js';
-import { checkRoles } from '../middlewares/checkRoles.js';
-import { ROLES } from '../constants/index.js';
 
 const contactsRouter = Router();
 
