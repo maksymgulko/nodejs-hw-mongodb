@@ -16,6 +16,9 @@ import { isValidId } from '../validation/isValid.js';
 import { authenticate } from '../middlewares/authenticate.js';
 import { checkRoles } from '../middlewares/checkRoles.js';
 import { ROLES } from '../constants/index.js';
+import { authenticate } from '../middlewares/authenticate.js';
+import { checkRoles } from '../middlewares/checkRoles.js';
+import { ROLES } from '../constants/index.js';
 
 const contactsRouter = Router();
 
@@ -29,6 +32,7 @@ contactsRouter.get(
 
 contactsRouter.get(
   '/:contactId',
+  checkRoles(ROLES.ADMIN, ROLES.USER),
   checkRoles(ROLES.ADMIN, ROLES.USER),
   isValidId,
   ctrlWrapper(getContactByIdController),
@@ -50,6 +54,7 @@ contactsRouter.delete(
 
 contactsRouter.patch(
   '/:contactId',
+  checkRoles(ROLES.ADMIN, ROLES.USER),
   checkRoles(ROLES.ADMIN, ROLES.USER),
   isValidId,
   validateBody(updateContactSchema),
