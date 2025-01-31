@@ -1,10 +1,10 @@
-import { ROLES, SORT_ORDER } from '../constants/index.js';
+import { SORT_ORDER } from '../constants/index.js';
 import { ContactsCollection } from '../db/models/contact.js';
 import { calculatePaginationData } from '../utils/calculatePaginationData.js';
 
 export const getAllContacts = async ({
   userId,
-  role,
+  // role,
   page,
   perPage,
   sortOrder = SORT_ORDER.ASC,
@@ -14,9 +14,9 @@ export const getAllContacts = async ({
   const limit = perPage;
   const skip = (page - 1) * perPage;
 
-  const query = role === ROLES.ADMIN ? {} : { userId };
+  // const query = role === ROLES.ADMIN ? {} : { userId };
 
-  const contactsQuery = ContactsCollection.find(query);
+  const contactsQuery = ContactsCollection.find({ userId });
 
   if (filter.contactType) {
     contactsQuery.where('contactType').equals(filter.contactType);
@@ -43,8 +43,8 @@ export const getAllContacts = async ({
   };
 };
 
-export const getContactById = async (contactId) => {
-  return await ContactsCollection.findOne(contactId);
+export const getContactById = async (userId, contactId) => {
+  return await ContactsCollection.findOne({ userId, _id: contactId });
 };
 
 export const createContact = async (payload) => {
@@ -52,8 +52,9 @@ export const createContact = async (payload) => {
   return contact;
 };
 
-export const deleteContact = async (contactId) => {
+export const deleteContact = async (userId, contactId) => {
   const contact = await ContactsCollection.findOneAndDelete({
+    userId,
     _id: contactId,
   });
 
@@ -61,13 +62,13 @@ export const deleteContact = async (contactId) => {
 };
 
 export const updateContact = async (
-  // userId,
+  userId,
   contactId,
   payload,
   options = {},
 ) => {
   const rawResult = await ContactsCollection.findOneAndUpdate(
-    { _id: contactId },
+    { userId, _id: contactId },
     payload,
     {
       new: true,
