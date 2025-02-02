@@ -43,9 +43,9 @@ contactsRouter.delete(
 
 contactsRouter.patch(
   '/:contactId',
+  upload.single('photo'),
   isValidId,
   validateBody(updateContactSchema),
-  upload.single('photo'),
   ctrlWrapper(patchContactController),
 );
 
