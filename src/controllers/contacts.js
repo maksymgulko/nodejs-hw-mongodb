@@ -55,7 +55,7 @@ export const getContactByIdController = async (req, res, next) => {
 
 export const createContactController = async (req, res) => {
   const { _id: userId } = req.user;
-  const { name, phoneNumber, contactType } = req.body;
+  const { name, phoneNumber, contactType, email, isFavourite } = req.body;
   const photo = req.file;
 
   let photoUrl;
@@ -76,7 +76,11 @@ export const createContactController = async (req, res) => {
   }
 
   const payload = {
-    ...req.body,
+    name,
+    phoneNumber,
+    contactType,
+    email,
+    isFavourite,
     userId,
     photo: photoUrl,
   };
